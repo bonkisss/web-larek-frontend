@@ -183,6 +183,134 @@
 
 ---
 
+## 📦 Типы данных и интерфейсы
+
+В приложении используются следующие основные типы и интерфейсы (см. [`src/types/index.ts`](src/types/index.ts)):
+
+- **ProductApi**  
+  Интерфейс товара, приходящего с API  
+  ```ts
+  interface ProductApi {
+    id: string;
+    title: string;
+    description: string;
+    price: number;
+    image: string;
+    category: string;
+  }
+  ```
+
+- **OrderApi**  
+  Интерфейс заказа, приходящего с API  
+  ```ts
+  interface OrderApi {
+    items: ProductApi[];
+    total: number;
+    address: string;
+    email: string;
+    phone: string;
+    payment: string;
+  }
+  ```
+
+- **ProductModel**  
+  Интерфейс модели товара для отображения  
+  ```ts
+  interface ProductModel {
+    id: string;
+    title: string;
+    description: string;
+    price: number;
+    image: string;
+    category: string;
+    inBasket: boolean;
+  }
+  ```
+
+- **OrderModel**  
+  Интерфейс модели заказа для отображения  
+  ```ts
+  interface OrderModel {
+    items: ProductModel[];
+    total: number;
+    address: string;
+    email: string;
+    phone: string;
+    payment: string;
+  }
+  ```
+
+- **ProductViewProps**  
+  Свойства компонента отображения товара  
+  ```ts
+  interface ProductViewProps {
+    product: ProductModel;
+    onAddToBasket: (id: string) => void;
+  }
+  ```
+
+- **BasketViewProps**  
+  Свойства компонента отображения корзины  
+  ```ts
+  interface BasketViewProps {
+    items: ProductModel[];
+    total: number;
+    onRemove: (id: string) => void;
+  }
+  ```
+
+- **IApiClient**  
+  Интерфейс клиента API  
+  ```ts
+  interface IApiClient {
+    get<T>(uri: string): Promise<T>;
+    post<T>(uri: string, data: object): Promise<T>;
+  }
+  ```
+
+- **IEventEmitter**  
+  Интерфейс брокера событий  
+  ```ts
+  interface IEventEmitter {
+    on<T>(event: string, callback: (data: T) => void): void;
+    emit<T>(event: string, data?: T): void;
+    off(event: string, callback: Function): void;
+  }
+  ```
+
+- **AppEvents**  
+  Перечисление событий приложения  
+  ```ts
+  enum AppEvents {
+    AddToBasket = 'add-to-basket',
+    RemoveFromBasket = 'remove-from-basket',
+    SubmitOrder = 'submit-order',
+    OrderSuccess = 'order-success',
+  }
+  ```
+
+- **AddToBasketEvent, RemoveFromBasketEvent, SubmitOrderEvent, OrderSuccessEvent**  
+  Интерфейсы событий  
+  ```ts
+  interface AddToBasketEvent {
+    productId: string;
+  }
+
+  interface RemoveFromBasketEvent {
+    productId: string;
+  }
+
+  interface SubmitOrderEvent {
+    order: OrderModel;
+  }
+
+  interface OrderSuccessEvent {
+    orderId: string;
+    total: number;
+  }
+  ```
+---
+
 ## 📁 Структура проекта
 
 ```
@@ -201,3 +329,5 @@ src/
   scss/
     styles.scss
 ```
+
+---
